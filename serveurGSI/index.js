@@ -51,7 +51,7 @@ app.use((req, res, next) => {
           if (isDetect) {
             const pingInterval = setInterval(() => {
               if (isDetect) {
-                checkDevice(ip, pingInterval);
+                checkDevice(ip, pingInterval, user.nom);
               }
             }, 4000);
           }
@@ -73,10 +73,10 @@ app.listen(5000, () => {
   console.log("Server listening in port 5000 ...");
 });
 
-const checkDevice = (ip, intervale) => {
+const checkDevice = (ip, intervale, username) => {
   ping.sys.probe(ip, (isAlive) => {
     if (!isAlive) {
-      console.log("L'appareil n'est plus là.");
+      console.log(username + " deconnecte .");
       isDetect = false;
       clearInterval(intervale); // Arrête l'intervalle une fois que l'appareil n'est plus détecté
     }
