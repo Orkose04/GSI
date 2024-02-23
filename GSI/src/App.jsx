@@ -11,14 +11,14 @@ export const App = () => {
       id: 1,
       statue: false,
       ip: "",
-      img: "/img/Th-c2.png",
+      img: "/img/user1.png",
     },
     {
       nom: "Anjoanina",
       id: 2,
       statue: false,
       ip: "",
-      img: "/img/unnamed.png",
+      img: "/img/user2.png",
     },
   ];
   return (
