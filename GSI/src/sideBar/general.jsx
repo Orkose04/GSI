@@ -3,7 +3,7 @@ import { FaClipboardList } from "react-icons/fa";
 import { FaUserGroup } from "react-icons/fa6";
 import { IoMdSettings } from "react-icons/io";
 
-import "./general.css";
+import "./leftnav.css";
 
 const GeneralBox = () => {
   return (

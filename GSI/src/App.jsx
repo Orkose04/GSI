@@ -1,41 +1,48 @@
-import React from "react";
-// import Img1 from "/img/unnamed.png";
-// import Img2 from "/img/Th-c2.png";
-// import Img3 from "/img/pdp.png";
+import React, { useState } from "react";
 import List from "./listUser/list";
 import Logo from "./sideBar/logo";
 import GeneralBox from "./sideBar/general";
-import Acces from "./sideBar/acces";
+import Access from "./sideBar/accessibilty";
+import "./App.css";
+import { RiRefreshFill } from "react-icons/ri";
 
 export const App = () => {
-  const userActif = [
-    {
-      nom: "josie",
-      id: 1,
-      statue: false,
-      ip: "",
-      img: "/img/user1.png",
-    },
-    {
-      nom: "Anjoanina",
-      id: 2,
-      statue: false,
-      ip: "",
-      img: "/img/user2.png",
-    },
-  ];
+  const [userActif, setUserActif] = useState([]);
+  const handleRefresh = () => {
+    fetch("http://192.168.88.27:5000/gsi/users/")
+      .then((res) => {
+        return res.json();
+      })
+      .then((data) => {
+        let tmp = [...data];
+        tmp = tmp.filter((user) => user.statue == true);
+        setUserActif(tmp);
+        console.log(userActif);
+      });
+  };
+  setInterval(handleRefresh, 10000);
   return (
     <div className="bigContainer">
       <div className="sideBar">
         <Logo />
         <GeneralBox />
         <hr />
-        <Acces />
+        <Access />
       </div>
       <div className="listUser">
-        <h2>User List</h2>
+        <div className="titleUser">
+          <h2>User List</h2>
+          <button onClick={handleRefresh}>
+            <RiRefreshFill className="iconRefresh" />
+          </button>
+        </div>
         {userActif.map((user) => (
-          <List username={user.nom} key={user.id} img={user.img} />
+          <>
+            <br />
+            <List username={user.nom} key={user.id} img={user.img} />
+            <br />
+            <hr />
+          </>
         ))}
       </div>
     </div>

@@ -3,18 +3,18 @@ import { IoEyeSharp } from "react-icons/io5";
 import { MdDarkMode } from "react-icons/md";
 import { BiSolidLogOut } from "react-icons/bi";
 
-import "./general.css";
+import "./leftnav.css";
 
-const Acces = () => {
+const Access = () => {
   return (
     <div className="Box">
-      <p>Generale</p>
+      <p>Accessibility</p>
       <div className="optBox">
-        <h2>Show all user</h2>
+        <h2>Show all users</h2>
         <IoEyeSharp />
       </div>
       <div className="optBox">
-        <h2>Best user</h2>
+        <h2>Best users</h2>
         <MdDarkMode />
       </div>
       <div className="optBox">
@@ -25,4 +25,4 @@ const Acces = () => {
   );
 };
 
-export default Acces;
+export default Access;
