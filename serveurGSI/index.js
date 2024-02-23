@@ -4,7 +4,6 @@ const mysql = require("mysql");
 const XMLHttpRequest = require("xhr2");
 const ping = require("ping");
 
-let isDetect = false;
 let ip;
 
 const pool = mysql.createPool({
@@ -30,7 +29,6 @@ const userActif = [
 ];
 
 app.use((req, res, next) => {
-  console.log(req.query.id);
   userActif.forEach((user) => {
     if (user.id == req.query.id) {
       ip = req.headers["x-forwarded-for"] || req.connection.remoteAddress;
@@ -46,12 +44,12 @@ app.use((req, res, next) => {
       // Utilisation de la fonction ping
       ping.sys.probe(ip, (isAlive) => {
         if (isAlive) {
-          console.log("L'appareil est joignable.");
-          isDetect = true;
-          if (isDetect) {
+          console.log(user.nom + " est joignable.");
+          user.statue = true;
+          if (user.statue) {
             const pingInterval = setInterval(() => {
-              if (isDetect) {
-                checkDevice(ip, pingInterval, user.nom);
+              if (user.statue) {
+                checkDevice(ip, pingInterval, user.nom, user.statue);
               }
             }, 4000);
           }
@@ -73,11 +71,11 @@ app.listen(5000, () => {
   console.log("Server listening in port 5000 ...");
 });
 
-const checkDevice = (ip, intervale, username) => {
+const checkDevice = (ip, intervale, username, detect) => {
   ping.sys.probe(ip, (isAlive) => {
     if (!isAlive) {
       console.log(username + " deconnecte .");
-      isDetect = false;
+      detect = false;
       clearInterval(intervale); // Arrête l'intervalle une fois que l'appareil n'est plus détecté
     }
   });
