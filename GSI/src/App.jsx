@@ -9,7 +9,7 @@ export const App = () => {
       <div className="sideBar"></div>
       <div className="listUser">
         <h2>User List</h2>
-        <List username={"Username1"} img={"../img/unnamed.png"} coTime={21} />
+        <List username={"Username1"} img={Img1} coTime={21} />
         <List username={"Username2"} img={Img2} coTime={41} />
       </div>
     </div>
