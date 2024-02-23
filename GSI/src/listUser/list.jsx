@@ -2,13 +2,16 @@ import React from "react";
 import "./list.css";
 
 export const List = ({ username, img, coTime }) => {
+  let isConnected = true;
   return (
-    <div>
-      <div className="user">
+    <div className="bigContainer container-items">
+      <span className="pdp">
         <img src={img} alt="user1" className="pdp" />
-        <div>
+      </span>
+      <div className="user">
+        <div className="user-info">
           <p className="username">{username}</p>
-          <p>Connected since {coTime}</p>
+          <p className="cotime">{isConnected ? "C" : "Disc"}onnected</p>
         </div>
       </div>
     </div>
