@@ -1,0 +1,12 @@
+app.get("/gsi/check/", (req, res) => {
+  pool.getConnection(function (err, connection) {
+    connection.query("SELECT * FROM users", function (err, rows) {
+      connection.release();
+      if (err) throw err;
+
+      console.log(rows.length);
+      res.send(JSON.stringify(rows));
+    });
+  });
+  console.log("---- Connexion down");
+});
