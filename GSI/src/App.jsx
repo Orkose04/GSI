@@ -3,6 +3,9 @@ import React from "react";
 // import Img2 from "/img/Th-c2.png";
 // import Img3 from "/img/pdp.png";
 import List from "./listUser/list";
+import Logo from "./sideBar/logo";
+import GeneralBox from "./sideBar/general";
+import Acces from "./sideBar/acces";
 
 export const App = () => {
   const userActif = [
@@ -23,7 +26,12 @@ export const App = () => {
   ];
   return (
     <div className="bigContainer">
-      <div className="sideBar"></div>
+      <div className="sideBar">
+        <Logo />
+        <GeneralBox />
+        <hr />
+        <Acces />
+      </div>
       <div className="listUser">
         <h2>User List</h2>
         {userActif.map((user) => (
