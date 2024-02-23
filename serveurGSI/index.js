@@ -3,8 +3,10 @@ const app = express();
 const mysql = require("mysql");
 const XMLHttpRequest = require("xhr2");
 const ping = require("ping");
+const cors = require("cors");
 
 let ip;
+const pingIntervals = {};
 
 const pool = mysql.createPool({
   host: "localhost",
@@ -19,14 +21,18 @@ const userActif = [
     id: 1,
     statue: false,
     ip: "",
+    img: "/img/user1.png",
   },
   {
     nom: "Anjoanina",
     id: 2,
     statue: false,
     ip: "",
+    img: "/img/user2.png",
   },
 ];
+
+app.use(cors());
 
 app.use((req, res, next) => {
   userActif.forEach((user) => {
@@ -46,13 +52,7 @@ app.use((req, res, next) => {
         if (isAlive) {
           console.log(user.nom + " est joignable.");
           user.statue = true;
-          if (user.statue) {
-            const pingInterval = setInterval(() => {
-              if (user.statue) {
-                checkDevice(ip, pingInterval, user.nom, user.statue);
-              }
-            }, 4000);
-          }
+          startPingInterval(user);
         } else {
           console.log("L'appareil n'est pas joignable.");
         }
@@ -62,20 +62,39 @@ app.use((req, res, next) => {
   next();
 });
 
+app.get("/gsi/users/", (req, res) => {
+  res.json(userActif);
+});
+
 app.get("/gsi/check/", (req, res) => {
   // console.log(req.query);
   res.send("Paramètres reçus");
 });
 
-app.listen(5000, () => {
+app.listen(process.env.PORT || 5000, () => {
   console.log("Server listening in port 5000 ...");
 });
 
-const checkDevice = (ip, intervale, username, detect) => {
+// Fonction pour démarrer un nouvel intervalle
+function startPingInterval(user) {
+  // Vérifier si un intervalle existe déjà pour cet utilisateur
+  if (pingIntervals[user.id]) {
+    clearInterval(pingIntervals[user.id]);
+  }
+
+  // Créer un nouvel intervalle
+  pingIntervals[user.id] = setInterval(() => {
+    if (user.statue) {
+      checkDevice(user.ip, pingIntervals[user.id], user);
+    }
+  }, 500);
+}
+
+const checkDevice = (ip, intervale, user) => {
   ping.sys.probe(ip, (isAlive) => {
-    if (!isAlive) {
-      console.log(username + " deconnecte .");
-      detect = false;
+    if (!isAlive && user.statue) {
+      console.log(user.nom + " deconnecte .");
+      user.statue = false;
       clearInterval(intervale); // Arrête l'intervalle une fois que l'appareil n'est plus détecté
     }
   });

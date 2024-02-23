@@ -3,9 +3,10 @@ const app = express();
 const mysql = require("mysql");
 const XMLHttpRequest = require("xhr2");
 const ping = require("ping");
+const cors = require("cors");
 
-let isDetect = false;
 let ip;
+const pingIntervals = {};
 
 const pool = mysql.createPool({
   host: "localhost",
@@ -19,39 +20,58 @@ const userActif = [
     nom: "josie",
     id: 1,
     statue: false,
+    ip: "",
+    img: "/img/user1.png",
+    intervale: "",
   },
   {
     nom: "Anjoanina",
     id: 2,
     statue: false,
+    ip: "",
+    intervale: "",
+    img: "/img/user2.png",
   },
 ];
 
-app.use((req, res, next) => {
-  console.log(req.query);
-  ip = req.headers["x-forwarded-for"] || req.connection.remoteAddress;
-  if (ip.substr(0, 7) == "::ffff:") {
-    ip = ip.substr(7);
-  }
-  console.log("Appareil connecté avec l'IP: " + ip);
-  // Utilisation de la fonction ping
+app.use(cors());
 
-  ping.sys.probe(ip, (isAlive) => {
-    if (isAlive) {
-      console.log("L'appareil est joignable.");
-      isDetect = true;
-      if (isDetect) {
-        const pingInterval = setInterval(() => {
-          if (isDetect) {
-            checkDevice(ip, pingInterval);
-          }
-        }, 4000);
+app.use((req, res, next) => {
+  userActif.forEach((user) => {
+    if (user.id == req.query.id) {
+      ip = req.headers["x-forwarded-for"] || req.connection.remoteAddress;
+      if (ip.substr(0, 7) == "::ffff:") {
+        ip = ip.substr(7);
       }
-    } else {
-      console.log("L'appareil n'est pas joignable.");
+      user.ip = ip;
+      console.log("-----------------------------------");
+      console.log("Utilisateurs : ", user.nom);
+      console.log("Appareil connecté avec l'IP: " + ip);
+      console.log("-----------------------------------");
+
+      // Utilisation de la fonction ping
+      ping.sys.probe(ip, (isAlive) => {
+        if (isAlive) {
+          console.log(user.nom + " est joignable.");
+          user.statue = true;
+          if (user.statue) {
+            const pingInterval = setInterval(() => {
+              if (user.statue) {
+                checkDevice(ip, pingInterval, user);
+              }
+            }, 500);
+          }
+        } else {
+          console.log("L'appareil n'est pas joignable.");
+        }
+      });
     }
   });
   next();
+});
+
+app.get("/gsi/users/", (req, res) => {
+  res.json(userActif);
 });
 
 app.get("/gsi/check/", (req, res) => {
@@ -59,16 +79,31 @@ app.get("/gsi/check/", (req, res) => {
   res.send("Paramètres reçus");
 });
 
-app.listen(5000, () => {
+app.listen(process.env.PORT || 5000, () => {
   console.log("Server listening in port 5000 ...");
 });
 
-const checkDevice = (ip, intervale) => {
+const checkDevice = (ip, intervale, user) => {
   ping.sys.probe(ip, (isAlive) => {
-    if (!isAlive) {
-      console.log("L'appareil n'est plus là.");
-      isDetect = false;
+    if (!isAlive && user.statue) {
+      console.log(user.nom + " deconnecte .");
+      user.statue = false;
       clearInterval(intervale); // Arrête l'intervalle une fois que l'appareil n'est plus détecté
     }
   });
 };
+
+// Fonction pour démarrer un nouvel intervalle
+function startPingInterval(user) {
+  // Vérifier si un intervalle existe déjà pour cet utilisateur
+  if (pingIntervals[user.id]) {
+    clearInterval(pingIntervals[user.id]);
+  }
+
+  // Créer un nouvel intervalle
+  pingIntervals[user.id] = setInterval(() => {
+    if (user.status) {
+      checkDevice(user.ip, user);
+    }
+  }, 500);
+}
