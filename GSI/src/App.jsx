@@ -1,15 +1,15 @@
 import React, { useState } from "react";
+import { RiRefreshFill } from "react-icons/ri";
+import "./App.css";
 import List from "./listUser/list";
 import Logo from "./sideBar/logo";
 import GeneralBox from "./sideBar/general";
 import Access from "./sideBar/accessibilty";
-import "./App.css";
-import { RiRefreshFill } from "react-icons/ri";
 
 export const App = () => {
   const [userActif, setUserActif] = useState([]);
   const handleRefresh = () => {
-    fetch("http://192.168.88.27:5000/gsi/users/")
+    fetch("http://localhost:5000/gsi/users/")
       .then((res) => {
         return res.json();
       })
