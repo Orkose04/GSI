@@ -1,25 +1,21 @@
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: sans-serif;
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&display=swap");
+
+.container-items {
+  margin-bottom: 0.25rem;
+  padding: 0.25rem;
+  animation: 1s appear;
 }
 
-img {
-  overflow: visible;
-  overflow-clip-margin: unset;
-}
-
-.bigContainer {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.sideBar {
-  width: 240px;
-  height: 100vh;
-  background-color: #eee;
+@keyframes appear {
+  0% {
+    translate: 0 30px;
+    opacity: 0.4;
+  }
+  to {
+    translate: 0;
+    opacity: 1;
+  }
 }
 
 .listUser {
@@ -28,6 +24,8 @@ img {
   height: 100vh;
   background-color: #eee;
   padding: 2rem;
+  box-shadow: 10px 5px 20px hsl(0, 0%, 10%);
+  /* text-align: center; */
 }
 
 .listUser h2 {
@@ -36,19 +34,53 @@ img {
 }
 
 .user {
-  margin-top: 1em;
   display: flex;
-  justify-content: start;
-  align-items: center;
+  justify-content: right;
   gap: 1em;
-  /* flex-wrap: wrap; */
+  flex-wrap: wrap;
+  width: 25vw;
+}
+
+.user-info {
+  font-size: 1.25em;
+  display: flex;
+  flex-direction: column;
+  justify-content: end;
+  text-align: end;
+  gap: 10px;
 }
 
 .pdp {
-  max-width: 75px;
+  width: 90px;
+  height: 80px;
+  min-width: 80px;
+  min-height: 80px;
+  border-radius: 50%;
+  overflow: hidden;
+  background-color: darkblue;
+}
+
+.pdp img {
   width: 100%;
+  /* background-color: #ddd; */
 }
 
 .username {
   font-weight: bold;
+  font-size: 1.72em;
+  font-family: "Oswald";
+}
+
+.connected {
+  font-size: 0.8em;
+  font-weight: 200;
+  font-style: italic;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  justify-content: end;
+}
+
+.green-dot {
+  color: hsl(120, 100%, 35%);
 }
