@@ -83,4 +83,17 @@
 
 .green-dot {
   color: hsl(120, 100%, 35%);
+  animation: blinking 2s infinite;
+}
+
+@keyframes blinking {
+  0% {
+    color: hsl(120, 100%, 25%);
+  }
+  50% {
+    color: hsl(120, 100%, 45%);
+  }
+  99% {
+    color: hsl(120, 100%, 25%);
+  }
 }

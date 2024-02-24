@@ -5,7 +5,7 @@ import { useState } from "react";
 const ListUser = () => {
   const [userActif, setUserActif] = useState([]);
   const handleRefresh = () => {
-    fetch("http://localhost:5000/gsi/users/")
+    fetch("http://192.168.88.27:5000/gsi/users/")
       .then((res) => {
         return res.json();
       })
