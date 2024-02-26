@@ -1,6 +1,10 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&display=swap");
 
+:root {
+  --pdp: 4.75rem;
+}
+
 .container-items {
   margin-bottom: 0.25rem;
   padding: 0.25rem;
@@ -25,7 +29,6 @@
   background-color: #eee;
   padding: 2rem;
   box-shadow: 10px 5px 20px hsl(0, 0%, 10%);
-  /* text-align: center; */
 }
 
 .listUser h2 {
@@ -33,9 +36,14 @@
   font-weight: bolder;
 }
 
-.user {
+.user,
+.right,
+.userCard {
   display: flex;
-  justify-content: right;
+}
+
+.user {
+  justify-content: space-between;
   gap: 1em;
   flex-wrap: wrap;
   width: 25vw;
@@ -47,22 +55,19 @@
   flex-direction: column;
   justify-content: end;
   text-align: end;
-  gap: 10px;
 }
 
 .pdp {
-  width: 90px;
-  height: 80px;
-  min-width: 80px;
-  min-height: 80px;
+  width: var(--pdp);
+  height: var(--pdp);
+  min-width: var(--pdp);
+  min-height: var(--pdp);
   border-radius: 50%;
   overflow: hidden;
   background-color: darkblue;
 }
 
 .pdp img {
-  width: 100%;
-  /* background-color: #ddd; */
 }
 
 .username {
@@ -75,10 +80,6 @@
   font-size: 0.8em;
   font-weight: 200;
   font-style: italic;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  justify-content: end;
 }
 
 .green-dot {
@@ -91,9 +92,47 @@
     color: hsl(120, 100%, 25%);
   }
   50% {
-    color: hsl(120, 100%, 45%);
+    color: hsl(120, 100%, 35%);
   }
-  99% {
+  100% {
     color: hsl(120, 100%, 25%);
+  }
+}
+
+.show-more {
+  border: none;
+  background-color: transparent;
+  scale: 2;
+  margin-left: 0.5rem;
+}
+
+.show-more-dots {
+  cursor: pointer;
+  transition: all ease-in-out 200ms;
+  border-radius: 50%;
+  padding: 0.1rem;
+}
+
+.show-more-dots:hover {
+  color: #eee;
+  background-color: #000;
+}
+
+.details {
+  background-color: #ddd;
+  padding: 1rem 2rem;
+  font-family: "Oswald";
+  border-radius: 0 0 1rem 1rem;
+  animation: showMore 1s;
+}
+
+@keyframes showMore {
+  from {
+    transform: scaleY(0);
+    transform-origin: 60% 0;
+  }
+  to {
+    transform: scaleY(1);
+    transform-origin: 60% 0;
   }
 }
