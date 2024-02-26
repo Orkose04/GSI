@@ -3,7 +3,7 @@ import { GoDotFill } from "react-icons/go";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import "./list.css";
 
-export const List = ({ username, img, connectedTime }) => {
+export const List = ({ username, img, connectedTime, IP, Signal }) => {
   const [showDetails, setShowDetails] = useState(false);
 
   const showMore = useCallback(() => {
@@ -38,8 +38,8 @@ export const List = ({ username, img, connectedTime }) => {
           {/* Add the additional information you want to display here */}
           <ul>
             <li>Connected since: {connectedTime}</li>
-            <li></li>
-            <li></li>
+            <li>IP address: {IP}</li>
+            <li>Signal strength: ({Signal})</li>
           </ul>
         </div>
       )}

@@ -6,7 +6,7 @@ import Img from "/img/user1.png";
 const ListUser = () => {
   const [userActif, setUserActif] = useState([]);
   const handleRefresh = () => {
-    fetch("http://10.42.0.1:53/gsi/users/")
+    fetch("http://192.168.88.27:5000/gsi/users/")
       .then((res) => {
         return res.json();
       })
@@ -32,12 +32,16 @@ const ListUser = () => {
         key={2}
         img={Img}
         connectedTime={"5 seconds"}
+        IP={"12.34.56.78"}
+        Signal={-61}
       />
       <List
         username={"TestUser2"}
         key={2}
         img={Img}
         connectedTime={"50 minutes"}
+        IP={"87.65.43.21"}
+        Signal={-109}
       />
       {userActif.map((user) => (
         <>

@@ -120,9 +120,9 @@
 
 .details {
   background-color: #ddd;
-  padding: 1rem 2rem;
+  padding: 1rem;
   font-family: "Oswald";
-  border-radius: 0 0 1rem 1rem;
+  border-radius: 0.5rem 0.5rem 1rem 1rem;
   animation: showMore 1s;
 }
 
@@ -135,4 +135,9 @@
     transform: scaleY(1);
     transform-origin: 60% 0;
   }
+}
+
+.details li {
+  list-style: inside lower-greek;
+  font-weight: 700;
 }
